@@ -13,6 +13,8 @@ const docsDir = join(rootDir, 'docs');
 const workflowDir = join(rootDir, 'workflow');
 const sampleDataDir = join(rootDir, 'sample-data');
 const port = Number(process.env.PORT || 3000);
+const n8nBridgeUrl = process.env.N8N_BRIDGE_URL || '';
+const n8nBridgeToken = process.env.N8N_BRIDGE_TOKEN || '';
 
 const library = {
   automation: {
@@ -124,6 +126,38 @@ async function handleApiDemoDigest(req, res) {
     const topic = String(body.topic || 'automation').trim().toLowerCase();
     const selected = library[topic] || library.automation;
 
+    if (n8nBridgeUrl) {
+      try {
+        const bridgeResponse = await fetch(n8nBridgeUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(n8nBridgeToken ? { Authorization: `Bearer ${n8nBridgeToken}` } : {})
+          },
+          body: JSON.stringify({ topic })
+        });
+
+        if (bridgeResponse.ok) {
+          const bridgePayload = await bridgeResponse.json();
+          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({
+            ok: true,
+            topic,
+            heading: bridgePayload.heading || selected.heading,
+            generatedAt: bridgePayload.generatedAt || new Date().toISOString(),
+            items: bridgePayload.items || selected.items,
+            notes: [
+              'This response was served through the optional protected n8n bridge.',
+              ...((bridgePayload.notes || []).slice(0, 2))
+            ]
+          }));
+          return;
+        }
+      } catch {
+        // Fall back to the safe built-in demo payload below.
+      }
+    }
+
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
     res.end(JSON.stringify({
       ok: true,
@@ -133,7 +167,9 @@ async function handleApiDemoDigest(req, res) {
       items: selected.items,
       notes: [
         'This is a public-safe live demo response.',
-        'In production, this endpoint could be replaced with a real orchestration layer that triggers n8n or returns persisted digest output.'
+        n8nBridgeUrl
+          ? 'The protected n8n bridge was unavailable, so the built-in fallback demo response was used.'
+          : 'In production, this endpoint could be replaced with a real orchestration layer that triggers n8n or returns persisted digest output.'
       ]
     }));
   } catch {

@@ -74,11 +74,16 @@ This is intentionally safe:
 
 ## If you want a real n8n-backed production demo later
 
-The next step after this would be:
-- replace the sample function with a real orchestration layer
-- call n8n through a protected backend endpoint
-- store or retrieve real demo-safe outputs
-- keep credentials server-side only
+The app now supports an **optional protected bridge** via environment variables:
+- `N8N_BRIDGE_URL`
+- `N8N_BRIDGE_TOKEN`
+
+If those are set, the server will try the protected bridge first.
+If the bridge is unavailable, it safely falls back to the built-in public demo response.
+
+This lets you evolve the public portfolio app gradually:
+- public-safe fallback by default
+- protected n8n-backed behavior when ready
 
 ## Suggested launch structure
 

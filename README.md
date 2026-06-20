@@ -130,6 +130,8 @@ If this were taken from portfolio concept to production-grade internal tooling, 
 
 - `app/index.html` — portfolio-facing project page
 - `functions/api/demo-digest.js` — live demo endpoint for public-safe sample responses
+- `server/index.js` — Dokploy runtime and optional protected bridge logic
+- `.env.example` — optional bridge environment variables
 - `workflow/public-news-digest-workflow.json` — n8n workflow template
 - `sample-data/feed-items.json` — sample data for demonstration
 - `docs/demo-script.md` — short walkthrough script

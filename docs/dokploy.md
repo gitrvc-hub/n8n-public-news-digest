@@ -33,10 +33,11 @@ Attach either:
 
 ## Notes
 
-This is not yet a real n8n-triggering production service.
+This is not yet a direct public-to-n8n production path.
 It is a safe public demo runtime for portfolio use.
 
-A future version could replace `/api/demo-digest` with:
-- a real protected backend
-- an n8n webhook bridge
-- stored demo outputs
+The server now supports an **optional protected bridge** using:
+- `N8N_BRIDGE_URL`
+- `N8N_BRIDGE_TOKEN`
+
+That means you can keep the public-safe fallback while optionally routing requests through a protected backend that talks to n8n.
