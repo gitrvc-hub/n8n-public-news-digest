@@ -130,6 +130,7 @@ If this were taken from portfolio concept to production-grade internal tooling, 
 - `workflow/public-news-digest-workflow.json` — n8n workflow template
 - `sample-data/feed-items.json` — sample data for demonstration
 - `docs/demo-script.md` — short walkthrough script
+- `docs/deployment.md` — launch/deployment guide
 - `assets/social-preview.svg` — repo preview graphic
 
 ## Notes
