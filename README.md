@@ -2,118 +2,141 @@
 
 ![Social preview](assets/social-preview.svg)
 
-A public-demo-safe portfolio project that watches public feeds, filters noise, summarizes important updates with AI, and delivers a clean daily digest to Telegram, Slack, or email.
+A portfolio project showcasing a public-safe n8n workflow that turns noisy public information sources into a clean, decision-friendly daily digest.
 
-## Portfolio summary
+## Overview
 
-**What it is**
-A reusable n8n workflow template for turning public information sources into a useful daily briefing.
+This project was designed as a **public-facing portfolio case study**.
 
-**Who it is for**
-- founders
-- operators
-- agencies
-- researchers
-- content teams
-- people who want fewer tabs and better signals
+The goal was to demonstrate how I approach workflow automation when the audience needs to see:
+- clear business value
+- clean orchestration logic
+- AI used practically, not just decoratively
+- a workflow that is safe to show publicly
 
-**Why it belongs in a portfolio**
-- uses only public or mock data
-- easy to explain in one sentence
-- combines orchestration + AI + delivery
-- visually demoable
-- adaptable across industries
+Instead of using private client data, internal systems, or confidential business processes, this project uses a **public-safe scenario**: monitoring public sources, filtering important updates, summarizing them, and delivering a clean digest.
 
-## Public-facing parts
+## The problem
 
-This project has 2 public-facing assets:
+Operators, founders, marketers, and researchers often deal with too much scattered information:
+- industry news
+- product updates
+- release announcements
+- documentation changes
+- public market signals
 
-- `app/index.html`
-  - a polished portfolio/demo page
-- `workflow/public-news-digest-workflow.json`
-  - the reusable workflow template people can import into n8n
+The problem is not a lack of information.
+The problem is **too much low-signal information spread across too many places**.
 
-The backend credentials and delivery channels stay private. The demo story stays public.
+## The solution
 
-## Included files
+I designed an n8n workflow that:
+- checks public feeds on a schedule
+- collects recent updates
+- filters weak or empty items
+- scores likely relevance
+- summarizes the strongest items with AI
+- formats the results into a readable digest
+- sends the final output to a delivery channel like Telegram, Slack, or email
 
-- `README.md` — overview, setup, and portfolio framing
-- `app/index.html` — public-facing project page
-- `workflow/public-news-digest-workflow.json` — importable n8n workflow template
-- `sample-data/feed-items.json` — public-safe mock data
-- `docs/demo-script.md` — Loom/demo walkthrough script
-- `CONTRIBUTING.md` — contribution guide
-- `CHANGELOG.md` — version history
-- `LICENSE` — MIT license
-- `.gitignore` — ignore local-only files and secrets
+The result is a workflow pattern that is useful, explainable, and easy to adapt to multiple industries.
 
-## Workflow summary
+## Why this project works as a portfolio piece
+
+This project intentionally highlights the parts of automation work that matter to clients and recruiters:
+
+- **Business framing**
+  - The workflow solves a real attention and information problem.
+- **Systems thinking**
+  - It combines scheduling, parsing, filtering, scoring, summarization, and delivery.
+- **Safe public presentation**
+  - The use case can be demonstrated without exposing private records or credentials.
+- **Reusable pattern design**
+  - The same automation structure can be reused for many niches.
+
+## My role
+
+I created this project end-to-end as a portfolio-ready automation concept, including:
+- workflow concept and use-case selection
+- public-safe demo framing
+- n8n workflow structure
+- documentation and positioning
+- public-facing HTML case-study page
+- reusable repo structure for GitHub presentation
+
+## Workflow logic
+
+The workflow follows this sequence:
 
 1. Scheduled trigger runs every morning
-2. Pulls items from public RSS feeds or APIs
-3. Normalizes titles, dates, and sources
-4. Filters empty or low-signal items
-5. Scores item relevance using simple rules
-6. Uses AI to summarize each selected item
-7. Formats a clean daily digest
-8. Sends it to Telegram / Slack / email
-9. Can optionally store a copy in Notion / Sheets / Airtable
+2. Public feeds or endpoints are queried
+3. Source items are normalized into a consistent format
+4. Empty or weak items are filtered out
+5. Remaining items are scored for likely relevance
+6. AI generates short summaries for selected items
+7. A single digest is formatted for delivery
+8. The digest is sent to Telegram, Slack, or email
 
-## Example use cases
+## Business value
 
-- AI tools / model release digest
+This workflow pattern can help teams:
+- reduce time spent checking multiple sources manually
+- improve signal-to-noise ratio in research workflows
+- create consistent daily or weekly briefings
+- repurpose the same structure for different monitoring needs
+
+## Example industries / variants
+
+This same automation structure can be adapted for:
+- AI tools and model release tracking
 - real estate market updates
-- marketing / SEO change digest
-- open-source release roundup
-- docs change radar for public product docs
+- marketing and SEO changes
+- open-source release digests
+- public documentation change monitoring
+- niche industry intelligence briefings
 
-## Demo story
+## Public-facing assets
 
-Use this positioning line in your portfolio:
+This repo includes two main presentation assets:
 
-> Built an automated daily digest workflow in n8n that monitors public sources, filters noise, summarizes relevant updates, and sends a clean briefing to a delivery channel of choice.
+- `app/index.html`
+  - a public-facing case-study style project page
+- `workflow/public-news-digest-workflow.json`
+  - the reusable n8n workflow template
 
-## Quickstart
+## What this project demonstrates technically
 
-1. Import `workflow/public-news-digest-workflow.json` into n8n
-2. Replace placeholder feed URLs with real public feeds
-3. Connect your AI and delivery credentials
-4. Test with `sample-data/feed-items.json` or live feeds
-5. Customize scoring logic and delivery format for your niche
+- scheduled automation in n8n
+- external feed fetching
+- structured data normalization
+- filtering and scoring logic
+- AI summarization inside a workflow
+- digest formatting for human consumption
+- delivery to communication channels
 
-## Safe public demo rules
+## What I would improve next
 
-To keep this portfolio-safe:
-- use public feeds only
-- use mock data when recording demos
-- never commit credentials
-- never include private client feeds or internal URLs
-- keep screenshots and sample output sanitized
+If this were taken from portfolio concept to production-grade internal tooling, the next steps would be:
+- stronger deduplication logic
+- configurable scoring by topic
+- multiple output formats
+- persistent storage for historical digests
+- approval / review step before delivery
+- richer observability around digest quality
 
-## Suggested GitHub presentation
+## Repo contents
 
-When publishing this repo, keep the message simple:
+- `app/index.html` — portfolio-facing project page
+- `workflow/public-news-digest-workflow.json` — n8n workflow template
+- `sample-data/feed-items.json` — sample data for demonstration
+- `docs/demo-script.md` — short walkthrough script
+- `assets/social-preview.svg` — repo preview graphic
 
-- **Problem:** there is too much noise across news and update sources
-- **Solution:** one workflow turns scattered updates into a structured digest
-- **Value:** less research time, better awareness, reusable automation pattern
+## Notes
 
-## Suggested screenshots / assets
+This repository is meant to be viewed as a **portfolio project first** and a reusable demo workflow second.
 
-Recommended repo assets:
-- screenshot of `app/index.html`
-- screenshot of the n8n canvas after importing the workflow
-- screenshot of sample digest output in Telegram or Slack
-- short Loom walkthrough using the script in `docs/demo-script.md`
-
-## Future improvements
-
-- add a Slack version and email version
-- add a Notion database sink
-- add topic-specific weighting
-- add duplicate detection by URL hash
-- add a human approval step before delivery
-- add multiple portfolio variants by industry
+The workflow can be imported and extended, but the primary purpose of this repo is to demonstrate how I design and present useful automation systems in a public-safe way.
 
 ## License
 
