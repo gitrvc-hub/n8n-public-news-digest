@@ -8,7 +8,6 @@
     :root {
       --bg: #08111f;
       --panel: rgba(13, 20, 38, 0.82);
-      --panel-soft: rgba(16, 24, 45, 0.65);
       --line: rgba(148, 163, 184, 0.2);
       --text: #e8eef9;
       --muted: #9fb0c9;
@@ -53,9 +52,7 @@
       align-items: stretch;
     }
 
-    .hero-copy {
-      padding: 36px;
-    }
+    .hero-copy { padding: 36px; }
 
     .eyebrow {
       display: inline-flex;
@@ -147,36 +144,21 @@
       padding: 18px;
     }
 
-    .mini h3 {
-      margin: 0 0 10px;
-      font-size: 1rem;
-    }
-
+    .mini h3 { margin: 0 0 10px; font-size: 1rem; }
     .mini p, .mini li {
       color: var(--muted);
       line-height: 1.65;
       font-size: .94rem;
     }
+    .mini ul { margin: 0; padding-left: 18px; }
 
-    .mini ul {
-      margin: 0;
-      padding-left: 18px;
-    }
-
-    .section {
-      padding: 16px 0 24px;
-    }
-
-    .section-head {
-      margin-bottom: 16px;
-    }
-
+    .section { padding: 16px 0 24px; }
+    .section-head { margin-bottom: 16px; }
     .section-head h2 {
       margin: 0 0 8px;
       font-size: clamp(1.5rem, 2vw, 2rem);
       letter-spacing: -.03em;
     }
-
     .section-head p {
       margin: 0;
       color: var(--muted);
@@ -196,49 +178,29 @@
       gap: 18px;
     }
 
-    .panel {
-      padding: 24px;
-    }
-
-    .panel h3 {
-      margin: 0 0 12px;
-      font-size: 1.06rem;
-    }
-
+    .panel { padding: 24px; }
+    .panel h3 { margin: 0 0 12px; font-size: 1.06rem; }
     .panel p, .panel li {
       color: #cbd8ed;
       line-height: 1.72;
       font-size: .96rem;
     }
+    .panel ul { margin: 0; padding-left: 18px; }
 
-    .panel ul, .panel ol {
-      margin: 0;
-      padding-left: 18px;
-    }
-
-    .kpi {
-      display: grid;
-      gap: 10px;
-    }
-
+    .kpi { display: grid; gap: 10px; }
     .kpi .row {
       padding: 14px;
       border-radius: 16px;
       background: rgba(12, 20, 36, 0.7);
       border: 1px solid rgba(148,163,184,.14);
     }
-
     .kpi strong {
       display: block;
       margin-bottom: 4px;
       font-size: 1rem;
     }
 
-    .flow {
-      display: grid;
-      gap: 12px;
-    }
-
+    .flow { display: grid; gap: 12px; }
     .flow-step {
       display: grid;
       grid-template-columns: 36px 1fr;
@@ -247,7 +209,6 @@
       padding: 12px 0;
       border-top: 1px solid rgba(148,163,184,.12);
     }
-
     .flow-step:first-child { border-top: none; padding-top: 0; }
     .flow-step .num {
       width: 36px;
@@ -260,29 +221,24 @@
       color: var(--accent2);
       font-weight: 800;
     }
-
-    .flow-step strong {
-      display: block;
-      margin-bottom: 4px;
-    }
+    .flow-step strong { display: block; margin-bottom: 4px; }
 
     .output {
       background: linear-gradient(180deg, rgba(10,16,30,.98), rgba(9,16,31,.94));
     }
-
-    .output-item {
+    .output-item,
+    .demo-item {
       padding: 14px 0;
       border-top: 1px solid rgba(148,163,184,.12);
     }
-
-    .output-item:first-child { border-top: none; padding-top: 0; }
-
-    .output .meta-line {
+    .output-item:first-of-type,
+    .demo-item:first-of-type { border-top: none; padding-top: 0; }
+    .output .meta-line,
+    .demo-meta-line {
       color: var(--muted);
       font-size: .82rem;
       margin-bottom: 6px;
     }
-
     .label {
       display: inline-flex;
       align-items: center;
@@ -295,6 +251,62 @@
       margin-bottom: 10px;
     }
 
+    .demo-shell {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 18px;
+    }
+    .demo-form { display: grid; gap: 14px; }
+    .demo-field label {
+      display: block;
+      font-size: .9rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #d9e6fb;
+    }
+    .demo-field select,
+    .demo-field button {
+      width: 100%;
+      min-height: 46px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,.2);
+      background: rgba(10, 17, 30, 0.9);
+      color: var(--text);
+      padding: 0 14px;
+      font: inherit;
+    }
+    .demo-field button {
+      background: linear-gradient(135deg, var(--accent), #36d399);
+      color: var(--ink);
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .demo-note,
+    .demo-status {
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+    .demo-output {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(9, 16, 31, 0.92);
+      border: 1px solid rgba(148,163,184,.14);
+      min-height: 340px;
+    }
+    .demo-output h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+    .demo-meta {
+      color: var(--muted);
+      font-size: .85rem;
+      margin-bottom: 14px;
+    }
+    .demo-output a { color: var(--accent2); }
+
     .footer {
       padding: 8px 0 44px;
       color: var(--muted);
@@ -302,7 +314,7 @@
     }
 
     @media (max-width: 980px) {
-      .hero-grid, .grid-3, .grid-2 {
+      .hero-grid, .grid-3, .grid-2, .demo-shell {
         grid-template-columns: 1fr;
       }
       h1 { max-width: 100%; }
@@ -329,10 +341,10 @@
           </p>
 
           <div class="meta">
-            <div class="pill">Public-safe scenario</div>
-            <div class="pill">Workflow orchestration</div>
-            <div class="pill">AI summarization</div>
-            <div class="pill">Reusable automation pattern</div>
+            <div class="pill">Automation case study</div>
+            <div class="pill">Recruiter-friendly presentation</div>
+            <div class="pill">Business-first workflow design</div>
+            <div class="pill">Practical AI orchestration</div>
           </div>
 
           <div class="actions">
@@ -354,7 +366,7 @@
           <div class="mini">
             <h3>Best fit audiences</h3>
             <p>
-              Recruiters, founders, operators, agencies, and teams evaluating how I design useful workflow systems — not just isolated AI prompts or disconnected automations.
+              Recruiters, founders, operators, agencies, and teams evaluating how I design useful workflow systems — with enough technical depth to be credible and enough business framing to be easy to understand.
             </p>
           </div>
         </div>
@@ -416,7 +428,7 @@
         </div>
 
         <div class="card panel output">
-          <div class="label">Sample digest output</div>
+          <div class="label">Illustrative output</div>
           <div class="output-item">
             <div class="meta-line">Score 8 • Automation • Open Workflow Weekly</div>
             <strong>Open-source workflow tool adds new AI evaluation nodes</strong>
@@ -431,6 +443,40 @@
             <div class="meta-line">Score 6 • Content • Maker Dispatch</div>
             <strong>New public API makes content syndication easier for small teams</strong>
             <p>A lightweight API now supports simpler content redistribution and event-based publishing. It opens up cleaner workflow options for repurposing pipelines and multi-channel content operations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="card panel">
+          <div class="section-head">
+            <h2>Live demo</h2>
+            <p>
+              This version includes a safe public demo endpoint so visitors can generate sample digest output directly from the page without exposing credentials or private systems.
+            </p>
+          </div>
+          <div class="demo-shell">
+            <div class="demo-form">
+              <div class="demo-field">
+                <label for="topicSelect">Choose a digest scenario</label>
+                <select id="topicSelect">
+                  <option value="automation">Automation and workflow news</option>
+                  <option value="realestate">Real estate market signals</option>
+                  <option value="marketing">Marketing and SEO updates</option>
+                </select>
+              </div>
+              <div class="demo-field">
+                <button id="runDemoButton" type="button">Generate sample digest</button>
+              </div>
+              <p class="demo-note">
+                This is a public-safe live demo layer. In production, this frontend could call a real orchestration layer that triggers n8n or serves persisted workflow output.
+              </p>
+            </div>
+            <div class="demo-output" id="demoOutput">
+              <div class="demo-status">Select a scenario and run the demo to see a sample digest response.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -490,15 +536,15 @@
           <div class="grid-3">
             <div>
               <h3>Case study</h3>
-              <p>`README.md` reframes the project as a portfolio case study rather than an instruction manual.</p>
+              <p>`README.md` frames the project as a recruiter-friendly portfolio case study.</p>
             </div>
             <div>
               <h3>Workflow template</h3>
               <p>`workflow/public-news-digest-workflow.json` contains the reusable n8n automation structure.</p>
             </div>
             <div>
-              <h3>Presentation page</h3>
-              <p>`app/index.html` provides a polished public-facing project page suitable for sharing or screenshotting.</p>
+              <h3>Live demo endpoint</h3>
+              <p>`functions/api/demo-digest.js` provides a safe demo response layer for public visitors.</p>
             </div>
           </div>
         </div>
@@ -508,8 +554,62 @@
 
   <footer class="footer">
     <div class="wrap">
-      Portfolio case study: a public-safe n8n automation concept designed to demonstrate workflow thinking, AI usage, and practical business value.
+      Portfolio case study: a public-safe n8n automation concept designed to demonstrate workflow thinking, AI usage, practical business value, and a safe live demo layer.
     </div>
   </footer>
+
+  <script>
+    const topicSelect = document.getElementById('topicSelect');
+    const runDemoButton = document.getElementById('runDemoButton');
+    const demoOutput = document.getElementById('demoOutput');
+
+    function renderDigest(payload) {
+      const items = (payload.items || []).map((item) => `
+        <div class="demo-item">
+          <div class="demo-meta-line">Score ${item.score} • ${item.source}</div>
+          <strong>${item.title}</strong>
+          <p>${item.summary}</p>
+          <p style="margin-top:8px;"><a href="${item.link}" target="_blank" rel="noopener noreferrer">Source link</a></p>
+        </div>
+      `).join('');
+
+      demoOutput.innerHTML = `
+        <h3>${payload.heading}</h3>
+        <div class="demo-meta">Generated at ${new Date(payload.generatedAt).toLocaleString()}</div>
+        ${items}
+        <div class="demo-item">
+          <div class="demo-status">${(payload.notes || []).join(' ')}</div>
+        </div>
+      `;
+    }
+
+    async function runDemo() {
+      const topic = topicSelect.value;
+      demoOutput.innerHTML = '<div class="demo-status">Generating sample digest…</div>';
+
+      try {
+        const response = await fetch('/api/demo-digest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic })
+        });
+
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+
+        const payload = await response.json();
+        if (!payload.ok) {
+          throw new Error(payload.error || 'Demo failed');
+        }
+
+        renderDigest(payload);
+      } catch (error) {
+        demoOutput.innerHTML = '<div class="demo-status">Live demo unavailable in this environment. Deploy this project on Cloudflare Pages to enable the public demo endpoint.</div>';
+      }
+    }
+
+    runDemoButton.addEventListener('click', runDemo);
+  </script>
 </body>
 </html>

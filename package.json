@@ -1,0 +1,11 @@
+{
+  "name": "n8n-public-news-digest",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Public-facing portfolio case study and live demo for a public-safe n8n-style news digest workflow.",
+  "scripts": {
+    "check:function": "node --input-type=module -e \"import('./functions/api/demo-digest.js').then(() => console.log('function-ok'))\"",
+    "start": "node server/index.js"
+  }
+}

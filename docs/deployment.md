@@ -1,6 +1,6 @@
 # Deployment / Launch Guide
 
-This project can be launched publicly as a **static portfolio case-study site** plus a **GitHub repo**.
+This project can be launched publicly as a **live portfolio case-study site** plus a **GitHub repo**.
 
 ## Recommended launch setup
 
@@ -8,102 +8,97 @@ Use two public surfaces:
 
 1. **GitHub repository**
    - for code, workflow JSON, and technical credibility
-2. **Static site**
-   - for the public-facing case study page recruiters and clients can visit directly
+2. **Live static site with serverless demo endpoint**
+   - for the public-facing case study page and interactive sample digest demo
 
-## Easiest option: GitHub Pages
+## Important note about hosting choice
 
-This repo is now structured to support a simple static deployment.
+This project now includes a live demo endpoint at:
+- `functions/api/demo-digest.js`
 
-### Why it works
-- `index.html` exists at repo root
-- it redirects to `app/index.html`
-- no backend is required for the public-facing page
-- fast and free
+That means the best host is **Cloudflare Pages**, because it can serve:
+- the static HTML page
+- the `/api/demo-digest` function
 
-### Steps
-1. Go to the repo:
-   - `https://github.com/gitrvc-hub/n8n-public-news-digest`
-2. Open:
-   - **Settings** → **Pages**
-3. Under **Build and deployment**:
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/ (root)`
-4. Save
-5. Wait for GitHub Pages to publish
+## Best option: Cloudflare Pages
+
+### Why this is the best fit
+- serves the portfolio page
+- supports the live demo API endpoint
+- no traditional backend server required
+- easy GitHub integration
+- easy custom domain upgrade later
+
+### How to deploy
+1. Go to Cloudflare Pages
+2. Create a new project
+3. Connect the GitHub repo:
+   - `gitrvc-hub/n8n-public-news-digest`
+4. Build settings:
+   - Framework preset: `None`
+   - Build command: leave empty
+   - Build output directory: `/`
+5. Deploy
 
 ### Expected result
-Your site should become available at something like:
-- `https://gitrvc-hub.github.io/n8n-public-news-digest/`
+You will get a public URL from Cloudflare Pages.
+That URL will serve:
+- the public project page
+- the live demo button
+- the `/api/demo-digest` endpoint
 
-That URL will redirect visitors into the portfolio page automatically.
+## GitHub Pages note
 
-## Alternate options
+GitHub Pages is still okay if you only want:
+- the static case-study page
+- no live interactive demo
 
-### Cloudflare Pages
-Good if you want:
-- faster global CDN
-- custom domain later
-- cleaner portfolio URL
+But for **Option B** with a real public demo, GitHub Pages is not enough by itself because it does not run this function:
+- `functions/api/demo-digest.js`
 
-Basic approach:
-- import the GitHub repo into Cloudflare Pages
-- framework preset: none / static
-- build command: none
-- output directory: `/`
+So:
+- **GitHub Pages** = static version only
+- **Cloudflare Pages** = live demo version
 
-### Netlify
-Also easy for static launch:
-- connect repo
-- build command: none
-- publish directory: `/`
+## Live demo behavior
 
-## Best public launch structure
+The public page now includes a demo section where a visitor can:
+- choose a scenario
+- click **Generate sample digest**
+- receive public-safe sample digest output from `/api/demo-digest`
+
+This is intentionally safe:
+- no secrets
+- no real client data
+- no real production systems
+
+## If you want a real n8n-backed production demo later
+
+The next step after this would be:
+- replace the sample function with a real orchestration layer
+- call n8n through a protected backend endpoint
+- store or retrieve real demo-safe outputs
+- keep credentials server-side only
+
+## Suggested launch structure
 
 Use this pairing:
-
-- **GitHub repo:** technical proof + workflow files
-- **Live page:** polished portfolio presentation
-
-Example:
-- GitHub repo link on portfolio
-- Live site link as “View case study” or “Live project page”
-
-## Recommended portfolio wording
-
-Use links like:
-- **Case Study**
-- **Live Project Page**
-- **GitHub Repo**
-- **Workflow Template**
-
-Avoid calling it just:
-- “demo”
-
-because this is stronger than a casual demo — it is a portfolio case study.
-
-## What to add before launch for a stronger presentation
-
-Optional but recommended:
-- screenshot of the n8n canvas
-- screenshot of digest output in Telegram/Slack
-- Loom walkthrough
-- project thumbnail in your main portfolio site
+- **GitHub repo** = technical proof
+- **Cloudflare Pages site** = live public case study + demo
 
 ## Suggested launch checklist
 
-- [ ] GitHub repo description is polished
-- [ ] GitHub Pages is enabled
-- [ ] README is portfolio-facing
-- [ ] public page opens correctly
-- [ ] screenshot assets added later if desired
-- [ ] portfolio site links to both live page and GitHub repo
+- [ ] repo description polished
+- [ ] Cloudflare Pages project connected
+- [ ] site deployed successfully
+- [ ] live demo button returns results
+- [ ] README links to live site
+- [ ] portfolio site links to both repo and live case study
 
 ## Current public assets
 
 Repo:
 - `https://github.com/gitrvc-hub/n8n-public-news-digest`
 
-Planned live site after Pages is enabled:
-- `https://gitrvc-hub.github.io/n8n-public-news-digest/`
+Planned best live deployment target:
+- Cloudflare Pages
