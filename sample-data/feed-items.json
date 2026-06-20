@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Open-source workflow tool adds new AI evaluation nodes",
+    "link": "https://example.com/open-source-workflow-ai-eval",
+    "source": "Open Workflow Weekly",
+    "published": "2026-06-20T07:30:00Z",
+    "category": "automation",
+    "summary": "A popular automation platform introduced evaluation and guardrail nodes for AI-powered workflows.",
+    "score_hint": 8
+  },
+  {
+    "title": "Major CRM platform launches faster lead routing automations",
+    "link": "https://example.com/crm-lead-routing-update",
+    "source": "Ops Stack Journal",
+    "published": "2026-06-20T06:10:00Z",
+    "category": "crm",
+    "summary": "The update focuses on shorter time-to-contact and improved routing rules for inbound leads.",
+    "score_hint": 7
+  },
+  {
+    "title": "New public API makes content syndication easier for small teams",
+    "link": "https://example.com/content-syndication-api",
+    "source": "Maker Dispatch",
+    "published": "2026-06-20T04:45:00Z",
+    "category": "content",
+    "summary": "A lightweight API simplifies content redistribution and event-triggered publishing workflows.",
+    "score_hint": 6
+  }
+]

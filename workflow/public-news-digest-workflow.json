@@ -1,0 +1,349 @@
+{
+  "name": "Public News Digest",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"feeds\": [\n    { \"name\": \"Open Workflow Weekly\", \"url\": \"https://example.com/rss/automation.xml\", \"topic\": \"automation\" },\n    { \"name\": \"Ops Stack Journal\", \"url\": \"https://example.com/rss/ops.xml\", \"topic\": \"operations\" },\n    { \"name\": \"Maker Dispatch\", \"url\": \"https://example.com/rss/content.xml\", \"topic\": \"content\" }\n  ],\n  \"maxItemsPerFeed\": 5,\n  \"minScore\": 6,\n  \"deliveryChannel\": \"telegram\"\n}"
+      },
+      "id": "set-feed-config",
+      "name": "Set Feed Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const config = $input.first().json;\nconst outputs = [];\nfor (const feed of config.feeds) {\n  outputs.push({\n    json: {\n      source: feed.name,\n      topic: feed.topic,\n      url: feed.url,\n      maxItems: config.maxItemsPerFeed,\n      minScore: config.minScore,\n      deliveryChannel: config.deliveryChannel\n    }\n  });\n}\nreturn outputs;"
+      },
+      "id": "explode-feeds",
+      "name": "Explode Feeds",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{$json.url}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "string"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "fetch-feed",
+      "name": "Fetch Feed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const xml = $input.first().json.body || '';\nconst meta = $('Explode Feeds').first().json;\nconst items = [];\nconst itemMatches = [...xml.matchAll(/<item>([\\s\\S]*?)<\\/item>/g)].slice(0, meta.maxItems);\nfor (const match of itemMatches) {\n  const block = match[1];\n  const pick = (tag) => {\n    const m = block.match(new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`, 'i'));\n    return m ? m[1].replace(/<!\\[CDATA\\[|\\]\\]>/g, '').trim() : '';\n  };\n  items.push({\n    json: {\n      title: pick('title'),\n      link: pick('link'),\n      published: pick('pubDate'),\n      description: pick('description').replace(/<[^>]+>/g, '').trim(),\n      source: meta.source,\n      topic: meta.topic,\n      minScore: meta.minScore,\n      deliveryChannel: meta.deliveryChannel\n    }\n  });\n}\nreturn items;"
+      },
+      "id": "parse-rss-items",
+      "name": "Parse RSS Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "has-title",
+              "leftValue": "={{$json.title}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "filter-empty-items",
+      "name": "Filter Empty Items",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1360,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map((item) => {\n  const text = `${item.json.title} ${item.json.description}`.toLowerCase();\n  let score = 5;\n  if (/(launch|release|funding|security|integration|automation|ai)/.test(text)) score += 2;\n  if (/(breaking|major|new|update)/.test(text)) score += 1;\n  return {\n    json: {\n      ...item.json,\n      score,\n      keep: score >= item.json.minScore\n    }\n  };\n});"
+      },
+      "id": "score-items",
+      "name": "Score Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1580,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "keep-only-scored",
+              "leftValue": "={{$json.keep}}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "keep-relevant-items",
+      "name": "Keep Relevant Items",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1800,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "model": "gpt-4.1-mini",
+        "messages": {
+          "values": [
+            {
+              "content": "Summarize this item in 2 concise sentences for a daily digest. Focus on why it matters to operators or builders.\n\nTitle: {{$json.title}}\nSource: {{$json.source}}\nTopic: {{$json.topic}}\nDescription: {{$json.description}}"
+            }
+          ]
+        },
+        "simplify": true
+      },
+      "id": "summarize-item",
+      "name": "Summarize Item",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2020,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all().map((item) => {\n  const summary = item.json.text || item.json.response || item.json.content || 'Summary unavailable.';\n  return {\n    title: item.json.title,\n    source: item.json.source,\n    topic: item.json.topic,\n    link: item.json.link,\n    score: item.json.score,\n    summary\n  };\n});\nitems.sort((a, b) => b.score - a.score);\nconst lines = [\n  `Daily Public News Digest`,\n  ``,\n  ...items.map((item, index) => `${index + 1}. ${item.title} (${item.source})\\nScore: ${item.score} | Topic: ${item.topic}\\n${item.summary}\\n${item.link}`)\n];\nreturn [{ json: { digest: lines.join('\\n\\n'), count: items.length } }];"
+      },
+      "id": "format-digest",
+      "name": "Format Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_TELEGRAM_CHAT_ID",
+        "text": "={{$json.digest}}",
+        "additionalFields": {}
+      },
+      "id": "send-telegram",
+      "name": "Send Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2460,
+        300
+      ],
+      "credentials": {
+        "telegramApi": {
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Feed Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Feed Config": {
+      "main": [
+        [
+          {
+            "node": "Explode Feeds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Explode Feeds": {
+      "main": [
+        [
+          {
+            "node": "Fetch Feed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Feed": {
+      "main": [
+        [
+          {
+            "node": "Parse RSS Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse RSS Items": {
+      "main": [
+        [
+          {
+            "node": "Filter Empty Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Empty Items": {
+      "main": [
+        [
+          {
+            "node": "Score Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Items": {
+      "main": [
+        [
+          {
+            "node": "Keep Relevant Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep Relevant Items": {
+      "main": [
+        [
+          {
+            "node": "Summarize Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Item": {
+      "main": [
+        [
+          {
+            "node": "Format Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Digest": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "public-news-digest-v1",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "public-news-digest-template",
+  "tags": []
+}

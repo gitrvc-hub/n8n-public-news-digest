@@ -1,0 +1,19 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local notes or exports
+*.log
+*.tmp
+*.bak
+
+# n8n local secrets / overrides
+.env
+.env.*
+credentials.json
+secrets.json
+
+# Generated previews if you export screenshots locally
+exports/
